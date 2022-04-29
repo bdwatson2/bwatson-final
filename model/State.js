@@ -13,6 +13,10 @@ const stateSchema = new Schema({
     },
     contig: {
         type: String
+    },
+    funfacts: [String],
+    state: {
+        type: String
     }
 });
 
@@ -21,6 +25,9 @@ stateSchema.methods.toJSON =
         var obj = this.toObject();
         delete obj.contig;
         delete obj._id;
+        if (obj.funfacts.length == 0){
+            delete obj.funfacts;
+        }
         return obj;
     };
 

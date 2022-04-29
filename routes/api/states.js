@@ -11,5 +11,8 @@ router.route('/')
 router.route('/:state')
     .get(statesController.getState);
 
+router.route('/:state/funfact')
+    .get(statesController.getFunFact);
+
 
 module.exports = router;

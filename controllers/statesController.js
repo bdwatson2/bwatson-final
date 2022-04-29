@@ -24,7 +24,6 @@ const getAllStates = async (req, res) => {
 }
 
 
-
 const getState = async (req, res) => {
     const state = await State.findOne({code: (req.params.state).toUpperCase()}).exec();
     if (state == null)
@@ -34,7 +33,27 @@ const getState = async (req, res) => {
     res.json(state);
 }
 
+
+const getFunFact = async (req, res) => {
+    const state = await State.findOne({code: (req.params.state).toUpperCase()},'funfacts').exec();
+    if (state == null)
+    {
+        res.json({"message":"Invalid state abbreviation parameter"});
+    }
+    if (state.funfacts.length == 0)
+    {
+        const name = await State.findOne({code: (req.params.state).toUpperCase()}).exec();
+        res.json({"message":`No Fun Facts found for ${name.state}`});
+    } 
+    else {
+        let num = Math.floor(Math.random() * state.funfacts.length);
+        res.json({"funfact":`${state.funfacts[num]}`});
+    }
+}
+
+
 module.exports = {
     getAllStates,
-    getState
+    getState,
+    getFunFact
 }
