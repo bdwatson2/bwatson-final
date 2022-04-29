@@ -17,6 +17,9 @@ const stateSchema = new Schema({
     funfacts: [String],
     state: {
         type: String
+    },
+    capital_city: {
+        type: String
     }
 });
 

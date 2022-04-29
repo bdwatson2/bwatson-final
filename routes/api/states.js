@@ -14,5 +14,9 @@ router.route('/:state')
 router.route('/:state/funfact')
     .get(statesController.getFunFact);
 
+    
+router.route('/:state/capital')
+    .get(statesController.getCapital);
+
 
 module.exports = router;

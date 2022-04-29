@@ -51,9 +51,20 @@ const getFunFact = async (req, res) => {
     }
 }
 
+const getCapital = async (req, res) => {
+    const state = await State.findOne({code: (req.params.state).toUpperCase()},'state capital_city').exec();
+    if (state == null)
+    {
+        res.json({"message":"Invalid state abbreviation parameter"});
+    }
+    
+    res.json({"state":`${state.state}`,"capital":`${state.capital_city}`});  
+}
+
 
 module.exports = {
     getAllStates,
     getState,
-    getFunFact
+    getFunFact,
+    getCapital
 }
