@@ -7,6 +7,9 @@ const stateSchema = new Schema({
         unique: true,
         required: true,
         dropDups: true
+    },
+    contig: {
+        type: String
     }
 });
 
