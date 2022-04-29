@@ -14,7 +14,7 @@ const PORT = process.env.PORT || 3500;
 //connect to MongoDB
 connectDB();
 
-//CORS
+app.use(cors());
 
 
 //handle URL encoded form data
