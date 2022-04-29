@@ -6,13 +6,13 @@ const data = {
 
  //from mongoDB
 const getAllStates = async (req, res) => {
-    const states = await State.find();
+    /*const states = await State.find();
     let mergedStateData = {
         ...states,
         ...data
     }
-    delete mergedStateData.stateCode;
-    res.json(mergedStateData);
+    delete mergedStateData.stateCode;*/
+    res.json(data);
 }
 
 const getState = async (req, res) => {
