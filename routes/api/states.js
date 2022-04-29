@@ -8,9 +8,8 @@ router.route('/')
     .get(statesController.getAllStates);
 
 
-/*
 router.route('/:state')
     .get(statesController.getState);
-    */
+
 
 module.exports = router;
