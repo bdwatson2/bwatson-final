@@ -20,6 +20,15 @@ const stateSchema = new Schema({
     },
     capital_city: {
         type: String
+    },
+    nickname: {
+        type: String
+    },
+    population: {
+        type: String
+    },
+    admission_date: {
+        type: String
     }
 });
 

@@ -57,14 +57,57 @@ const getCapital = async (req, res) => {
     {
         res.json({"message":"Invalid state abbreviation parameter"});
     }
-    
-    res.json({"state":`${state.state}`,"capital":`${state.capital_city}`});  
+    else 
+    {
+        res.json({"state":`${state.state}`,"capital":`${state.capital_city}`});  
+    }
 }
+
+//new---under here
+const getNickname = async (req, res) => {
+    const state = await State.findOne({code: (req.params.state).toUpperCase()},'state nickname').exec();
+    if (state == null)
+    {
+        res.json({"message":"Invalid state abbreviation parameter"});
+    }
+    else 
+    {
+        res.json({"state":`${state.state}`,"nickname":`${state.nickname}`});  
+    }
+}
+
+const getPopulation = async (req, res) => {
+    const state = await State.findOne({code: (req.params.state).toUpperCase()},'state population').exec();
+    if (state == null)
+    {
+        res.json({"message":"Invalid state abbreviation parameter"});
+    }
+    else 
+    {
+        res.json({"state":`${state.state}`,"population":`${state.population}`});  
+    }
+}
+
+const getAdmission = async (req, res) => {
+    const state = await State.findOne({code: (req.params.state).toUpperCase()},'state admission_date').exec();
+    if (state == null)
+    {
+        res.json({"message":"Invalid state abbreviation parameter"});
+    }
+    else 
+    {
+        res.json({"state":`${state.state}`,"admitted":`${state.admission_date}`});  
+    }
+}
+
 
 
 module.exports = {
     getAllStates,
     getState,
     getFunFact,
-    getCapital
+    getCapital,
+    getNickname,
+    getPopulation,
+    getAdmission
 }
