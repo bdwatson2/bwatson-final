@@ -179,10 +179,14 @@ const deleteFunFact = async (req, res) => {
     else
     {
         tempArray = state.funfacts;
-        if (tempArray[1] == null){
-            tempArray = [];
-        } else {
-            tempArray.splice((req.body.index-1), (req.body.index-1));
+        
+        if (req.body.index == 1)
+        {
+            tempArray.shift();
+        } 
+        else
+        {
+        tempArray.splice((req.body.index-1), (req.body.index-1));
         }
         state = await State.findOneAndUpdate({code: (req.params.state).toUpperCase()}, {funfacts: tempArray, __v:(state.__v == null ? 1 : state.__v+1)}).exec();
         state = await State.findOne({code: (req.params.state).toUpperCase()},"__v code funfacts _id");
