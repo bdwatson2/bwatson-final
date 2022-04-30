@@ -43,6 +43,10 @@ stateSchema.static('patchCondition', function() {
     stateSchema.test = false;
 })
 
+stateSchema.static('deleteCondition', function() {
+    stateSchema.test = false;
+})
+
 stateSchema.static('baseCondition', function() {
     stateSchema.test = true;
 })

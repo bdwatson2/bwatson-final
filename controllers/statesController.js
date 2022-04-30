@@ -126,7 +126,7 @@ const postFunFact = async (req, res) => {
     let state = await State.findOne({code: (req.params.state).toUpperCase()});
     
 
-    state = await State.findOneAndUpdate({code: (req.params.state).toUpperCase()}, {funfacts: state.funfacts.concat(req.body.funfacts), __v: 1}).exec();
+    state = await State.findOneAndUpdate({code: (req.params.state).toUpperCase()}, {funfacts: state.funfacts.concat(req.body.funfacts), __v: (state.__v == null ? 1 : state.__v+1)}).exec();
     state = await State.findOne({code: (req.params.state).toUpperCase()},"__v code funfacts _id");
     
     return res.json(state);
@@ -155,7 +155,32 @@ const patchFunFact = async (req, res) => {
     {
         tempArray = state.funfacts;
         tempArray[(req.body.index-1)] = req.body.funfact;
-        state = await State.findOneAndUpdate({code: (req.params.state).toUpperCase()}, {funfacts: tempArray, __v: 1}).exec();
+        state = await State.findOneAndUpdate({code: (req.params.state).toUpperCase()}, {funfacts: tempArray, __v: (state.__v == null ? 1 : state.__v+1)}).exec();
+        state = await State.findOne({code: (req.params.state).toUpperCase()},"__v code funfacts _id");
+        return res.json(state)
+    }
+}
+
+const deleteFunFact = async (req, res) => {
+    State.deleteCondition();
+    if (req.body.index == null)
+    {
+        return res.status(400).json({"message":"State fun fact index value required"});
+    }
+    let state = await State.findOne({code: (req.params.state).toUpperCase()});
+    if (state.funfacts.length == 0)
+    {
+        return res.status(400).json({"message":`No Fun Facts found for ${state.state}`});
+    }
+    else if (state.funfacts[(req.body.index-1)] == null)
+    {
+        return res.status(400).json({"message":`No Fun Fact found at that index for ${state.state}`});
+    }
+    else
+    {
+        tempArray = state.funfacts;
+        tempArray.splice((req.body.index-1), (req.body.index-1));
+        state = await State.findOneAndUpdate({code: (req.params.state).toUpperCase()}, {funfacts: tempArray, __v:(state.__v == null ? 1 : state.__v+1)}).exec();
         state = await State.findOne({code: (req.params.state).toUpperCase()},"__v code funfacts _id");
         return res.json(state)
     }
@@ -171,5 +196,6 @@ module.exports = {
     getPopulation,
     getAdmission,
     postFunFact,
-    patchFunFact
+    patchFunFact,
+    deleteFunFact
 }
