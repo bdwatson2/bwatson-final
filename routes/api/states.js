@@ -12,7 +12,8 @@ router.route('/:state')
     .get(statesController.getState);
 
 router.route('/:state/funfact')
-    .get(statesController.getFunFact);
+    .get(statesController.getFunFact)
+    .post(statesController.postFunFact);
 
 
 router.route('/:state/capital')

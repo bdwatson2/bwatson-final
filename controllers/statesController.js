@@ -1,14 +1,17 @@
 const State =  require('../model/State');
 
+
 const data = {
     statesJSON: require('../model/states.json')
 };
 
  //from mongoDB
 const getAllStates = async (req, res) => {
+    State.baseCondition();
     if (req.query.contig == "true")
     {
         const states = await State.find({contig: "true"}).exec();
+        
         res.json(states);
     } 
     else if(req.query.contig == "false") 
@@ -25,6 +28,7 @@ const getAllStates = async (req, res) => {
 
 
 const getState = async (req, res) => {
+    State.baseCondition();
     const state = await State.findOne({code: (req.params.state).toUpperCase()}).exec();
     if (state == null)
     {
@@ -35,6 +39,7 @@ const getState = async (req, res) => {
 
 
 const getFunFact = async (req, res) => {
+    State.baseCondition();
     const state = await State.findOne({code: (req.params.state).toUpperCase()},'funfacts').exec();
     if (state == null)
     {
@@ -52,6 +57,7 @@ const getFunFact = async (req, res) => {
 }
 
 const getCapital = async (req, res) => {
+    State.baseCondition();
     const state = await State.findOne({code: (req.params.state).toUpperCase()},'state capital_city').exec();
     if (state == null)
     {
@@ -63,8 +69,8 @@ const getCapital = async (req, res) => {
     }
 }
 
-//new---under here
 const getNickname = async (req, res) => {
+    State.baseCondition();
     const state = await State.findOne({code: (req.params.state).toUpperCase()},'state nickname').exec();
     if (state == null)
     {
@@ -77,6 +83,7 @@ const getNickname = async (req, res) => {
 }
 
 const getPopulation = async (req, res) => {
+    State.baseCondition();
     const state = await State.findOne({code: (req.params.state).toUpperCase()},'state population').exec();
     if (state == null)
     {
@@ -92,6 +99,7 @@ const getPopulation = async (req, res) => {
 }
 
 const getAdmission = async (req, res) => {
+    State.baseCondition();
     const state = await State.findOne({code: (req.params.state).toUpperCase()},'state admission_date').exec();
     if (state == null)
     {
@@ -103,6 +111,21 @@ const getAdmission = async (req, res) => {
     }
 }
 
+const postFunFact = async (req, res) => {
+    State.postCondition();
+    
+    if (req.body.funfacts == null || (typeof req.body.funfacts != "object"))
+    {
+        return res.status(400).json({"message":"State fun facts value required"});
+    }
+    let state = await State.findOne({code: (req.params.state).toUpperCase()});
+    
+
+    state = await State.findOneAndUpdate({code: (req.params.state).toUpperCase()}, {funfacts: state.funfacts.concat([`${req.body.funfacts}`]), __v: 1}).exec();
+    state = await State.findOne({code: (req.params.state).toUpperCase()},"__v code funfacts _id");
+    
+    return res.json(state);
+}
 
 
 module.exports = {
@@ -112,5 +135,6 @@ module.exports = {
     getCapital,
     getNickname,
     getPopulation,
-    getAdmission
+    getAdmission,
+    postFunFact
 }

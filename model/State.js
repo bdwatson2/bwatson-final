@@ -1,3 +1,4 @@
+const { Int32 } = require('bson');
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
@@ -32,15 +33,31 @@ const stateSchema = new Schema({
     }
 });
 
+stateSchema.test = true;
+
+stateSchema.static('postCondition', function() {
+    stateSchema.test = false;
+})
+
+stateSchema.static('baseCondition', function() {
+    stateSchema.test = true;
+})
+
+
 stateSchema.methods.toJSON = 
     function(){
         var obj = this.toObject();
         delete obj.contig;
-        delete obj._id;
+        
+        if (stateSchema.test == true){
+            delete obj._id;
+            delete obj.__v;
+        }
+        
         if (obj.funfacts.length == 0){
             delete obj.funfacts;
         }
         return obj;
-    };
+};
 
 module.exports = mongoose.model('State', stateSchema);
