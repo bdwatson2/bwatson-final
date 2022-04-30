@@ -34,21 +34,26 @@ const stateSchema = new Schema({
 });
 
 stateSchema.test = true;
+stateSchema.testdelete = true;
 
 stateSchema.static('postCondition', function() {
     stateSchema.test = false;
+    stateSchema.testdelete = true;
 })
 
 stateSchema.static('patchCondition', function() {
     stateSchema.test = false;
+    stateSchema.testdelete = true;
 })
 
 stateSchema.static('deleteCondition', function() {
     stateSchema.test = false;
+    stateSchema.testdelete = false;
 })
 
 stateSchema.static('baseCondition', function() {
     stateSchema.test = true;
+    stateSchema.testdelete = true;
 })
 
 
@@ -62,7 +67,7 @@ stateSchema.methods.toJSON =
             delete obj.__v;
         }
         
-        if (obj.funfacts.length == 0){
+        if (obj.funfacts.length == 0 && stateSchema.testdelete == true){
             delete obj.funfacts;
         }
         return obj;
