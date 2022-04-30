@@ -179,7 +179,7 @@ const deleteFunFact = async (req, res) => {
     else
     {
         tempArray = state.funfacts;
-        if (tempArray.length = 1){
+        if (tempArray[1] = null){
             tempArray = [];
         } else {
             tempArray.splice((req.body.index-1), (req.body.index-1));
