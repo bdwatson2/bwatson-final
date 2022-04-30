@@ -39,6 +39,10 @@ stateSchema.static('postCondition', function() {
     stateSchema.test = false;
 })
 
+stateSchema.static('patchCondition', function() {
+    stateSchema.test = false;
+})
+
 stateSchema.static('baseCondition', function() {
     stateSchema.test = true;
 })
