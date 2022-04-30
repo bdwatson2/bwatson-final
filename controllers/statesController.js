@@ -84,7 +84,10 @@ const getPopulation = async (req, res) => {
     }
     else 
     {
-        res.json({"state":`${state.state}`,"population":`${state.population}`});  
+        let temp = state.population;
+        let temp1 = parseInt(temp);
+        temp = temp1.toLocaleString('en-US');
+        res.json({"state":`${state.state}`,"population":`${temp}`});  
     }
 }
 
