@@ -114,14 +114,18 @@ const getAdmission = async (req, res) => {
 const postFunFact = async (req, res) => {
     State.postCondition();
     
-    if (req.body.funfacts == null || (typeof req.body.funfacts != "object"))
+    if (req.body.funfacts == null)
     {
         return res.status(400).json({"message":"State fun facts value required"});
+    }
+    else if (typeof req.body.funfacts != "object")
+    {
+        return res.status(400).json({"message":"State fun facts value must be an array"});
     }
     let state = await State.findOne({code: (req.params.state).toUpperCase()});
     
 
-    state = await State.findOneAndUpdate({code: (req.params.state).toUpperCase()}, {funfacts: state.funfacts.concat([`${req.body.funfacts}`]), __v: 1}).exec();
+    state = await State.findOneAndUpdate({code: (req.params.state).toUpperCase()}, {funfacts: state.funfacts.concat(req.body.funfacts), __v: 1}).exec();
     state = await State.findOne({code: (req.params.state).toUpperCase()},"__v code funfacts _id");
     
     return res.json(state);
